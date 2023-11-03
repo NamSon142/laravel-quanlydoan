@@ -13,10 +13,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group(['prefix' => 'admin'], function () {
-    Route::get('/', [HomeController::class, 'index']);
-    Route::group(['prefix' => 'login'], function(){
-        Route::get('/login', [HomeController::class, 'getLogin']);
+Route::group(['prefix' => '/'], function(){
+    Route::get('/', function(){
+        return "indexx";
     });
+    Route::group(['prefix' => '/login'], function(){
+        Route::get('/', [HomeController::class, 'getLogin']);
+        Route::post('/', [HomeController::class, 'postLogin']);
+    });
+    Route::get('/logout', [HomeController::class, 'logout']);
+});
+Route::group(['prefix' => '/admincp', 'middleware' => 'checkAdminLogin'], function () {
+    Route::get('/', [HomeController::class, 'index']); 
 });
